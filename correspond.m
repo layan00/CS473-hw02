@@ -31,3 +31,6 @@ matchedPoints2 = points2( indexPairs( :,2 ) );
 %  convert points objects to coordinates, they should be of size Nx2 each
 im1_points = matchedPoints1.Location;
 im2_points = matchedPoints2.Location;
+
+% Call estimateTransform for part 3 of the assignment: Estimating the homography %
+A = estimateTransform(im1_points, im2_points);
