@@ -32,5 +32,24 @@ matchedPoints2 = points2( indexPairs( :,2 ) );
 im1_points = matchedPoints1.Location;
 im2_points = matchedPoints2.Location;
 
+% visualize matches
+figure;
+showMatchedFeatures(im1,im2,matchedPoints1,matchedPoints2);
+title('Matched keypoints');
+
+% display number of correspondences (aiming for more than 4 matches)
+numCorrespondences = size(indexPairs, 1);
+fprintf('Number of correspondences: %d\n', numCorrespondences);
+
+% example matching points for testing
+im1_p =[1373 1204
+1841 1102
+1733 1213
+2099 1297];
+im2_p =[182 1160
+728 1055
+617 1172
+1001 1247];
 % Call estimateTransform for part 3 of the assignment: Estimating the homography %
+%A = estimateTransform(im1_p, im2_p);
 A = estimateTransform(im1_points, im2_points);
