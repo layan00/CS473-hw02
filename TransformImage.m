@@ -1,20 +1,29 @@
 function TransformedImage = TransformImage(InputImage, TransformMatrix, TransformType)
-    % Get size of the input image
-    [h, w] = size(InputImage);
-    
-    % Define corners of the input image
-    corners = [1, w, w, 1; 1, 1, h, h; 1, 1, 1, 1];
-    
-    cornersprime = TransformMatrix * corners;
-    
-    minx = min(cornersprime(1, :) ./ cornersprime(3, :));
-    maxx = max(cornersprime(1, :) ./ cornersprime(3, :));
-    miny = min(cornersprime(2, :) ./ cornersprime(3, :));
-    maxy = max(cornersprime(2, :) ./ cornersprime(3, :));
-    
-    Xprime_shifted = minx - 1;
-Yprime_shifted = miny - 1;
-[Xprime, Yprime] = meshgrid(Xprime_shifted:maxx, Yprime_shifted:maxy);
+% Get size of the input image
+[h, w] = size(InputImage);
+
+% Define corners of the input image
+c1 = [1;1;1];
+c2 = [w;1;1];
+c3 = [1;h;1];
+c4 = [w;h;1];
+corners = [c1 c2 c3 c4];
+
+% Apply the transformation to the corners
+cornersprime = TransformMatrix * corners;
+
+% Calculate the range for the transformed image
+minx = min(cornersprime(1, :) ./ cornersprime(3, :));
+maxx = max(cornersprime(1, :) ./ cornersprime(3, :));
+miny = min(cornersprime(2, :) ./ cornersprime(3, :));
+maxy = max(cornersprime(2, :) ./ cornersprime(3, :));
+
+% Determine the shift needed to force corners at (1,1)
+Xprime_shifted = 1 - minx;
+Yprime_shifted = 1 - miny;
+
+% Create a meshgrid for the transformed image covering the entire range
+[Xprime, Yprime] = meshgrid(1:maxx+Xprime_shifted, 1:maxy+Yprime_shifted);
 
 switch TransformType
     case 'scaling'
