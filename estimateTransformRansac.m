@@ -1,4 +1,4 @@
-function A_inliers = estimateTransformRansac(pts1, pts2)
+function A_inliers = estimateTransformRansac(pts1, pts2, im1, im2)
     Nransac = 10000;
     t = 2;
     n = size(pts1, 1);
@@ -26,5 +26,11 @@ function A_inliers = estimateTransformRansac(pts1, pts2)
 
     pts1inliers = pts1(idxbest, :);
     pts2inliers = pts2(idxbest, :);
+
+    figure();
+    showMatchedFeatures(im1, im2, pts1inliers, pts2inliers, "montage");
+    title("Refined matching points (by RANSAC), only inliers");
+    saveas(gcf, 'matched_features_plot.png');
+
     A_inliers = estimateTransform(pts1inliers, pts2inliers);
 end
