@@ -1,8 +1,9 @@
+% This function is adapted from the first assignment, for transforming images (it has been adjusted)
 function TransformedImage = TransformImage(InputImage, TransformMatrix, TransformType)
 % Get size of the input image
 [h, w] = size(InputImage);
 
-% Define corners of the input image
+% Define corners of the input image, corrected with the help of TA Mingjun!
 c1 = [1;1;1];
 c2 = [w;1;1];
 c3 = [1;h;1];
