@@ -1,4 +1,4 @@
-% Estimating the homography of two images eith matching correspondences 
+% Estimating the homography of two images with matching correspondences 
 % this function determines the transform between image 1 and 2
 
 function A = estimateTransform(im1_points, im2_points)
@@ -9,7 +9,7 @@ y = im1_points(:, 2);
 xp = im2_points(:, 1);
 yp = im2_points(:, 2);
 
-% Construct the design matrix P
+% Construct the design matrix P without a loop
 P = [
     -x, -y, -ones(size(x)), zeros(size(x)), zeros(size(x)), zeros(size(x)), x .* xp, y .* xp, xp;
     zeros(size(x)), zeros(size(x)), zeros(size(x)), -x, -y, -ones(size(x)), x .* yp, y .* yp, yp
@@ -26,5 +26,5 @@ q = V(:,end);
     
     % Reshape q to obtain the transformation matrix A
     A = reshape(q, 3, 3)';
-    disp(A);
+    disp(A); % for debugging
 end
