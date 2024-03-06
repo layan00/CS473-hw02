@@ -1,3 +1,5 @@
+% Main function. Please run this file to excute the program
+%
 % obtaining correspondences: This file describes the use of SURF to 
 % extract matching correspondences of two images.
 
@@ -40,22 +42,22 @@ title('Matched keypoints');
 
 % Display number of correspondences (aiming for more than 4 matches)
 numCorrespondences = size(indexPairs, 1);
-fprintf('Number of correspondences: %d\n', numCorrespondences);
+fprintf('Number of correspondences: %d\n', numCorrespondences); % for debugging
 
 % Call estimateTransform for part 3 of the assignment: Estimating the homography %
 %A = estimateTransform(im1_p, im2_p);
 %A = estimateTransform(im1_points, im2_points);
-% call ransac to get good points to estimate transform %
 
-
+% Call ransac to get good points to estimate transform %
 A_inliers = estimateTransformRansac(im1_points, im2_points, im1, im2);
-disp(A_inliers);
+disp(A_inliers); % debugging purposes
+% Transform image 2 using the estimated matrix
 im2_transformed = TransformImage(im2, inv(A_inliers), 'homography');
 
 nanlocations = isnan( im2_transformed );
 im2_transformed( nanlocations )=0;
 
-imwrite(im2_transformed, 'im2_transformed.png');
+imwrite(im2_transformed, 'im2_transformed.png'); % save transformed image
 
 % Get the size of im2_transformed
 [h_im2, w_im2] = size(im2_transformed);
@@ -66,7 +68,7 @@ im1_expanded = zeros(h_im2, w_im2);
 % Copy the contents of im1 into the appropriate region of im1_expanded
 im1_expanded(1:size(im1, 1), 1:size(im1, 2)) = im1;
 
-
+% Manually select the overlap
 imshow(im1_expanded);
 [x_overlap, ~] = ginput(2);
 
@@ -87,8 +89,7 @@ xlabel('Pixel Position');
 ylabel('Blend Value');
 title('Blending Ramp');
 
-
-
+% Create the ramp matrix
 ramp_matrix = repmat(ramp, h_im2, 1);
 
 % Applying the blending ramp
